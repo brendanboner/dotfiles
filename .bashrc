@@ -1,17 +1,29 @@
 #
 # ~/.bashrc
 #
+#
+# eval $(/opt/homebrew/bin/brew shellenv)
+# eval "$(zoxide init bash)"
+# alias cd=z
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# PS1='[\u@\h \W]\$ '
-
 # Set to superior editing mode
-set -o vi
+#set -o vi
 
 # keybinds
-bind -x '"\C-l":clear'
+#bind -x '"\C-l":clear'
+
+function parse_git_dirty {
+	[[ $(git status --porcelain 2>/dev/null) ]] && echo "*"
+}
+function parse_git_branch {
+	git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ (\1$(parse_git_dirty))/"
+}
+
+export PS1="\n\[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
+
 # ~~~~~~~~~~~~~~~ Environment Variables ~~~~~~~~~~~~~~~~~~~~~~~~
 
 export VISUAL=nvim
@@ -75,38 +87,6 @@ clone() {
 # adding keys was buggy, add them outside of the script for now
 # ssh-add -q ~/.ssh/mischa
 # ssh-add -q ~/.ssh/mburg
-#{
-#ssh-add -q ~/.ssh/bbonner
-#ssh-add -q ~/.ssh/brendanboner
-#} &>/dev/null
-
-# ~~~~~~~~~~~~~~~ Prompt ~~~~~~~~~~~~~~~~~~~~~~~~
-
-#export GIT_PS1_SHOWDIRTYSTATE=1
-#export GIT_PS1_SHOWSTASHSTATE=1
-#export GIT_PS1_SHOWUNTRACKEDFILES=1
-# Explicitly unset color (default anyhow). Use 1 to set it.
-#export GIT_PS1_SHOWCOLORHINTS=1
-#export GIT_PS1_DESCRIBE_STYLE="branch"
-# export GIT_PS1_SHOWUPSTREAM="auto git"
-
-# if [[ -f "$XDG_CONFIG_HOME/bash/gitprompt.sh" ]]; then
-# 	source "$XDG_CONFIG_HOME/bash/gitprompt.sh"
-# fi
-
-# PROMPT_COMMAND='__git_ps1 "\u@\h:\W" " \n$ "'
-# colorized prompt
-function parse_git_dirty {
-	[[ $(git status --porcelain 2>/dev/null) ]] && echo "*"
-}
-function parse_git_branch {
-	git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ (\1$(parse_git_dirty))/"
-}
-
-export PS1="\n\t \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
-#PROMPT_COMMAND="\n\t \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
-
-# The __git_ps1 function prompt is provided by the bash completion installed by brew. See https://github.com/mischavandenburg/dotfiles/issues/5
 
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -137,7 +117,7 @@ alias hlps='cd $REPOS/github.com/mischavandenburg/homelab-private-staging/'
 alias hlpp='cd $REPOS/github.com/mischavandenburg/homelab-private-production/'
 
 # ls
-alias ls='ls --color=auto'
+alias ls='ls -G'
 alias ll='ls -la'
 # alias la='exa -laghm@ --all --icons --git --color=always'
 alias la='ls -lathr'
@@ -181,7 +161,7 @@ alias fishies=asciiquarium
 
 # kubectl
 alias k='kubectl'
-source <(kubectl completion bash)
+#source <(kubectl completion bash)
 complete -o default -F __start_kubectl k
 alias kgp='kubectl get pods'
 alias kc='kubectx'
@@ -196,20 +176,10 @@ alias fp="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}
 # search for a file with fzf and open it in vim
 alias vf='v $(fp)'
 
-# sourcing
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	# echo "I'm on Mac!"
-
-	# brew bash completion
-	[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
-else
-	#	source /usr/share/fzf/key-bindings.bash
-	#	source /usr/share/fzf/completion.bash
-	[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-fi
-
 alias dev='ssh brendan@dev.lan'
 alias pve='ssh root@pve.lan'
 alias bev='ssh brendan@192.168.13.20'
 alias bev2='ssh brendan@192.168.13.100 -p 2222'
+
+eval "$(zoxide init bash)"
+alias cd=z

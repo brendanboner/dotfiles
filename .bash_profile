@@ -9,5 +9,10 @@ if [ -r ~/.bashrc ]; then
 	source ~/.bashrc
 fi
 
+if [ -r ~/.bash_aliases ]; then
+	source ~/.bash_aliases
+fi
+
+
 export XDG_CONFIG_HOME="$HOME"/.config
 export BASH_SILENCE_DEPRECATION_WARNING=1

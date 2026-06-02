@@ -6,7 +6,6 @@
 [[ $- != *i* ]] && return
 
 # keybinds
-bind -x '"\C-l":clear'
 
 # ~~~~~~~~~~~~~~~ Environment Variables ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -54,3 +53,20 @@ alias cd=z
 function parse_git_dirty { [[ $(git status --porcelain 2>/dev/null) ]] && echo "*"; }
 function parse_git_branch { git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ (\1$(parse_git_dirty))/"; }
 export PS1="\h:\[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\$ "
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# eval "$(oh-my-posh init bash --config $HOME/.config/ohmyposh/nord.omp.json)"
+#
+alias kubelocal='export KUBECONFIG=~/.kube/config'
+alias kubeedge1='export KUBECONFIG=~/.kube/ucpedge1.config'
+alias kubeucp1='export KUBECONFIG=~/.kube/ucp1.config'
+alias kubetalos='export KUBECONFIG=~/.kube/config.talos'
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/bbonner/.lmstudio/bin"
+# End of LM Studio CLI section
+

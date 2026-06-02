@@ -90,9 +90,18 @@ alias fp="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}
 # search for a file with fzf and open it in vim
 alias vf='v $(fp)'
 
+#alias code='"/Applications/Visual Studio Code.app/Contents/MacOS/Electron"'
 alias ssh='TERM=xterm-256color ssh'
 
 alias dev='ssh brendan@dev.lan'
 alias pve='ssh root@pve.lan'
 alias bev='ssh brendan@192.168.13.20'
 alias bev2='ssh brendan@192.168.13.100 -p 2222'
+
+alias xssh='ssh -oHostKeyAlgorithms=+ssh-dss'
+
+alias sshosts='vi ~/.ssh/known_hosts'
+
+alias wireshark='sudo /Applications/Wireshark.app/Contents/MacOS/Wireshark'
+alias sshy='ssh -o CheckHostIP=no'
+alias ssh0='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR'

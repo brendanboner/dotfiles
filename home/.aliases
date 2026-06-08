@@ -1,0 +1,5 @@
+alias vi=nvim
+alias lg=lazygit
+# alias cd=z
+alias ls=eza
+

@@ -1,29 +1,55 @@
+# Top-level settings
 add_newline = true
+palette = 'nord'
 
 format = """
-$directory$git_branch$git_status
-$character
-"""
+$directory\
+$git_branch\
+$git_status\
+$character"""
+
+# Define the Nord Palette
+[palettes.nord]
+nord0 = '#2E3440'
+nord1 = '#3B4252'
+nord2 = '#434C5E'
+nord3 = '#4C566A'
+nord4 = '#D8DEE9'
+nord5 = '#E5E9F0'
+nord6 = '#ECEFF4'
+nord7 = '#8FBCBB'
+nord8 = '#88C0D0'
+nord9 = '#81A1C1'
+nord10 = '#5E81AC'
+nord11 = '#BF616A'
+nord12 = '#D08770'
+nord13 = '#EBCB8B'
+nord14 = '#A3BE8C'
+nord15 = '#B48EAD'
+
+# Format the Prompt
+[character]
+success_symbol = '[❯](bold nord14)'
+error_symbol = '[❯](bold nord11)'
 
 [directory]
-style = "cyan"
+format = '[$path ](bold nord10)[$read_only ](nord11)'
+truncate_to_repo = false
 truncation_length = 3
-truncate_to_repo = true
+truncation_symbol = '…/'
 
 [git_branch]
-symbol = " "
-style = "magenta"
+format = 'on [$symbol$branch ](nord13)'
+symbol = ' '
 
 [git_status]
-style = "yellow"
+format = '[$all_status$ahead_behind ](nord15)'
 
-[character]
-success_symbol = "[❯](green)"
-error_symbol = "[❯](red)"
+# [python]
+# symbol = ' '
+# format = 'via [$symbol$version ](nord8)'
 
-[python]
-# Only show when these files exist in the current dir (or repo)
-# detect_files = ["pyproject.toml", "requirements.txt", "Pipfile",
-# "poetry.lock", ".python-version"]
-# detect_extensions = ["py"]
-# detect_folders = [".venv", "venv"]
+# [nodejs]
+# symbol = ' '
+# format = 'via [$symbol$version ](nord14)'
+
